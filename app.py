@@ -1,5 +1,4 @@
 import streamlit as st
-import yaml
 import base64
 from openai import OpenAI
 
