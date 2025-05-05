@@ -53,7 +53,7 @@ def main():
 
         if st.button("Analyze Nutrition"):
             with st.spinner("Analyzing..."):
-                result = generate_implicature(api_key, image_data_uri)
+                result = generate_implicature(api_key)
                 st.markdown("### Nutrition Information")
                 st.markdown(result)
 
