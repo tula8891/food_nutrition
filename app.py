@@ -81,7 +81,8 @@ def main():
 
     if uploaded_file is not None:
         # Display image
-        st.image(uploaded_file, caption="Uploaded Image", use_column_width=True)
+        # st.image(uploaded_file, caption="Uploaded Image", use_column_width=True)
+        st.image(uploaded_file, caption="Uploaded Image",  width=200)
 
         # Convert image to base64
         base64_image = base64.b64encode(uploaded_file.read()).decode("utf-8")
