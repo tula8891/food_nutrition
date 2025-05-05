@@ -54,7 +54,8 @@ def generate_implicature(api_key, image_data_uri):
     }
 
     try:
-        response = httpx.post(url, headers=headers, json=data)
+        timeout = httpx.Timeout(30.0, read=30.0)
+        response = httpx.post(url, headers=headers, json=data, timeout=timeout)
         response.raise_for_status()
         return response.json()["choices"][0]["message"]["content"]
     except Exception as e:
