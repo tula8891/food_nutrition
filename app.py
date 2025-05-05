@@ -1,5 +1,5 @@
 import streamlit as st
-# import yaml
+import httpx
 import base64
 from openai import OpenAI
 
@@ -13,23 +13,50 @@ from openai import OpenAI
 
 
 # Function to generate nutrition table from image
+# def generate_implicature(api_key, image_data_uri):
+#     client = OpenAI(api_key=api_key, base_url="https://api.perplexity.ai")
+#
+#     try:
+#         response = client.chat.completions.create(
+#             model="sonar-pro",
+#             messages=[
+#                 {
+#                     "role": "user",
+#                     "content": [
+#                         {"type": "text", "text": "Can you describe this image food nutrition in table?"},
+#                         {"type": "image_url", "image_url": {"url": image_data_uri}}
+#                     ]
+#                 }
+#             ]
+#         )
+#         return response.choices[0].message.content
+#     except Exception as e:
+#         return f"API Error: {e}"
+
+
 def generate_implicature(api_key, image_data_uri):
-    client = OpenAI(api_key=api_key, base_url="https://api.perplexity.ai")
+    url = "https://api.perplexity.ai/v1/chat/completions"  # Replace if incorrect
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json"
+    }
+    data = {
+        "model": "sonar-pro",
+        "messages": [
+            {
+                "role": "user",
+                "content": [
+                    {"type": "text", "text": "Can you describe this image's food nutrition in table format?"},
+                    {"type": "image_url", "image_url": {"url": image_data_uri}}
+                ]
+            }
+        ]
+    }
 
     try:
-        response = client.chat.completions.create(
-            model="sonar-pro",
-            messages=[
-                {
-                    "role": "user",
-                    "content": [
-                        {"type": "text", "text": "Can you describe this image food nutrition in table?"},
-                        {"type": "image_url", "image_url": {"url": image_data_uri}}
-                    ]
-                }
-            ]
-        )
-        return response.choices[0].message.content
+        response = httpx.post(url, headers=headers, json=data)
+        response.raise_for_status()
+        return response.json()["choices"][0]["message"]["content"]
     except Exception as e:
         return f"API Error: {e}"
 
