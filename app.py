@@ -5,7 +5,8 @@ from openai import OpenAI
 
 # Function to generate nutrition table from image
 def generate_implicature(api_key, image_data_uri):
-    client = OpenAI(api_key=api_key, base_url="https://api.perplexity.ai")
+    # client = OpenAI(api_key=api_key, base_url="https://api.perplexity.ai")
+    client = OpenAI(api_key=api_key)
 
     try:
         response = client.chat.completions.create(
