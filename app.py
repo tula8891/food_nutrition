@@ -41,7 +41,7 @@ def main():
 
     # Load API key
     try:
-        params = load_params_from_yaml()
+        # params = load_params_from_yaml()
         # api_key = params['YOUR_API_KEY']
         api_key = st.secrets["myconnection"]["YOUR_API_KEY"]
     except Exception as e:
