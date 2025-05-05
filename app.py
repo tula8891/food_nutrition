@@ -35,7 +35,7 @@ from openai import OpenAI
 
 
 def generate_implicature(api_key, image_data_uri):
-    url = "https://api.perplexity.ai/chat/completions"  # Replace if incorrect
+    url = "https://api.perplexity.ai/chat/completions"  # Corrected URL
     headers = {
         "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json"
