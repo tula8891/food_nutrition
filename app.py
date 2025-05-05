@@ -4,14 +4,6 @@ import base64
 from openai import OpenAI
 
 
-# Load parameters from YAML file
-@st.cache_data
-def load_params_from_yaml(yaml_file="params_new.yaml"):
-    with open(yaml_file, 'r') as file:
-        params = yaml.safe_load(file)
-    return params
-
-
 # Function to generate nutrition table from image
 def generate_implicature(api_key, image_data_uri):
     client = OpenAI(api_key=api_key, base_url="https://api.perplexity.ai")
@@ -41,7 +33,6 @@ def main():
 
     # Load API key
     try:
-        params = load_params_from_yaml()
         # api_key = params['YOUR_API_KEY']
         api_key = st.secrets["myconnection"]["YOUR_API_KEY"]
     except Exception as e:
