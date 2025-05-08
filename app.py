@@ -80,9 +80,9 @@ def main():
                 result = generate_implicature(api_key, image_data_uri, age, weight, height, gender, meal_type)
                 intake_info = extract_daily_intake_info(result)
 
-                # Popup-style summary (show only the portion)
+                # Display the analysis result as persistent info message
                 try:
-                    st.toast(f"🍽 This meal provides {intake_info} of the recommended daily intake.", icon="🍎")
+                    st.info(f"🍽 This meal provides {intake_info} of the recommended daily intake.")
                 except:
                     st.info(f"🍽 This meal provides {intake_info} of the recommended daily intake.")
 
