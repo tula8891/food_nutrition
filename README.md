@@ -75,4 +75,3 @@ This project is open-source. See the [GitHub repo](https://github.com/tula8891/f
 ```
 
 ---
-Answer from Perplexity: pplx.ai/share
