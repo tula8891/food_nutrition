@@ -5,8 +5,8 @@ Analyze the nutritional content of your meals directly from an image! This Strea
 
 ---
 
-**Live App:** [Food Nutrition Analyzer](https://foodnutrition-bedw5i7pctwrb9zuvu3jzg.streamlit.app/)  
-**GitHub Repo:** [github.com/tula8891/food_nutrition](https://github.com/tula8891/food_nutrition)
+Live App: [Food Nutrition Analyzer](https://foodnutrition-bedw5i7pctwrb9zuvu3jzg.streamlit.app/)  
+GitHub Repo: [github.com/tula8891/food_nutrition](https://github.com/tula8891/food_nutrition)
 
 ---
 
@@ -21,11 +21,11 @@ Analyze the nutritional content of your meals directly from an image! This Strea
 
 ## How to Use
 
-1. **Open the App:** Visit the [live app link](https://foodnutrition-bedw5i7pctwrb9zuvu3jzg.streamlit.app/).
-2. **Enter Details:** Use the sidebar to input your age, weight, height, gender, and select the meal type.
-3. **Upload Image:** Upload a photo of your meal (jpg, jpeg, or png).
-4. **Analyze:** Click "Analyze Nutrition" to get instant feedback on the meal’s nutritional value and suitability for you.
-5. **View Results:** The app will display a summary, including how much of your daily nutritional needs this meal covers.
+1. Open the App: Visit the [live app link](https://foodnutrition-bedw5i7pctwrb9zuvu3jzg.streamlit.app/).
+2. Enter Details: Use the sidebar to input your age, weight, height, gender, and select the meal type.
+3. Upload Image: Upload a photo of your meal (jpg, jpeg, or png).
+4. Analyze: Click "Analyze Nutrition" to get instant feedback on the meal’s nutritional value and suitability for you.
+5. View Results: The app will display a summary, including how much of your daily nutritional needs this meal covers.
 
 ---
 
