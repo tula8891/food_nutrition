@@ -1,6 +1,7 @@
 import streamlit as st
 import httpx
 import base64
+import re  # For regex to extract daily intake portion
 
 
 def generate_implicature(api_key, image_data_uri, age, weight, height, gender, meal_type):
@@ -10,12 +11,6 @@ def generate_implicature(api_key, image_data_uri, age, weight, height, gender, m
         "Content-Type": "application/json"
     }
 
-    # user_context = (
-    #     f"This image is from a {meal_type}. The person consuming this food is {age} years old, "
-    #     f"weighs {weight} kg, is {height} cm tall, and is {gender}. "
-    #     "Please analyze the nutritional content of the food shown in the image and determine if it is appropriate "
-    #     "for the person considering their physical characteristics and meal context."
-    # )
     user_context = (
         f"This image is from a {meal_type}. The person consuming this food is {age} years old, "
         f"weighs {weight} kg, is {height} cm tall, and is {gender}. "
@@ -45,6 +40,12 @@ def generate_implicature(api_key, image_data_uri, age, weight, height, gender, m
         return response.json()["choices"][0]["message"]["content"]
     except Exception as e:
         return f"API Error: {e}"
+
+
+def extract_daily_intake_info(response_text):
+    # Regex to capture portions like 1/4, 1/2, one-fourth, etc.
+    match = re.search(r"(approximately\s*)?(about\s*)?(?P<portion>1/4|1/2|1/3|1/5|1/6|1/8|one[-\s]?(fourth|half|third))[^.,]*", response_text, re.IGNORECASE)
+    return match.group(0).strip() if match else "Couldn't extract daily intake portion."
 
 
 def main():
@@ -77,8 +78,17 @@ def main():
         if st.button("Analyze Nutrition"):
             with st.spinner("Analyzing..."):
                 result = generate_implicature(api_key, image_data_uri, age, weight, height, gender, meal_type)
-                st.markdown("### Nutrition Information")
-                st.markdown(result)
+                intake_info = extract_daily_intake_info(result)
+
+                # Popup-style summary (show only the portion)
+                try:
+                    st.toast(f"🍽 This meal provides {intake_info} of the recommended daily intake.", icon="🍎")
+                except:
+                    st.info(f"🍽 This meal provides {intake_info} of the recommended daily intake.")
+
+                # (Optional) Full result if user wants to read more
+                with st.expander("Show full nutritional analysis"):
+                    st.markdown(result)
 
 
 if __name__ == "__main__":
