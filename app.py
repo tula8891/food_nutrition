@@ -99,7 +99,7 @@ def main():
 
     # API Key
     api_key = st.secrets["myconnection"]["YOUR_API_KEY"]
-
+    
     # Sidebar Inputs
     with st.sidebar:
         st.header("👤 Your Information")
