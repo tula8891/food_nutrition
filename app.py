@@ -99,11 +99,11 @@ def main():
 
     # API Key
     api_key = st.secrets["myconnection"]["YOUR_API_KEY"]
-    
+
     # Sidebar Inputs
     with st.sidebar:
         st.header("👤 Your Information")
-        user_name = st.text_input("Name", value="Parmanand Sahu")
+        user_name = st.text_input("Name", value="User")
         age = st.number_input("Age", min_value=1, max_value=120, value=34)
         weight = st.number_input("Weight (kg)", min_value=10.0, max_value=300.0, value=84.6)
         height = st.number_input("Height (cm)", min_value=50.0, max_value=250.0, value=172.0)
