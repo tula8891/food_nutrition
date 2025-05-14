@@ -29,7 +29,7 @@ def generate_implicature(api_key, image_data_uri, age, weight, height, gender, m
     user_context = (
         f"This image is from a {meal_type}. The person consuming this food is {age} years old, "
         f"weighs {weight} kg, is {height} cm tall, and is {gender}. "
-        "Please analyze the nutritional content of the food shown in the image and determine if it is appropriate "
+        "Please analyze the nutritional content of the food like calories, Proteins, carbohydrates and fats shown in the image and determine if it is appropriate "
         "for this person, considering their physical characteristics and the meal context. "
         "Additionally, indicate approximately what portion of their recommended daily nutritional intake "
         "this meal provides (e.g., 1/4, 1/2, etc.)."
