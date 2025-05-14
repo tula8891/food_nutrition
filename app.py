@@ -74,10 +74,10 @@ def extract_nutritional_values(response_text):
     }
 
     patterns = {
-        "calories": r"(?i)(?:\bcalories\b.*?)(\d{2,5})\s*k?cal",
-        "protein": r"(?i)(?:\bprotein\b.*?)(\d{1,3}(?:\.\d+)?)\s*g",
-        "carbohydrates": r"(?i)(?:\bcarbs?\b.*?)(\d{1,3}(?:\.\d+)?)\s*g",
-        "fat": r"(?i)(?:\bfat\b.*?)(\d{1,3}(?:\.\d+)?)\s*g"
+        "calories": r"(?i)(?:\bCalories\b.*?)(\d{2,5})\s*k?cal",
+        "protein": r"(?i)(?:\bProtein\b.*?)(\d{1,3}(?:\.\d+)?)\s*g",
+        "carbohydrates": r"(?i)(?:\bCarbohydrates?\b.*?)(\d{1,3}(?:\.\d+)?)\s*g",
+        "fat": r"(?i)(?:\bFat\b.*?)(\d{1,3}(?:\.\d+)?)\s*g"
     }
 
     for key, pattern in patterns.items():
