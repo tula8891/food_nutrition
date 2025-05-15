@@ -3,6 +3,7 @@ import httpx
 import base64
 import re
 
+
 # --- Nutrition Calculation ---
 def get_daily_nutrition_requirements(age, weight, height, gender):
     if gender.lower() == "male":
@@ -15,6 +16,7 @@ def get_daily_nutrition_requirements(age, weight, height, gender):
     carbs = (0.50 * calories) / 4
     fats = (0.35 * calories) / 9
     return round(calories, 1), round(protein, 1), round(carbs, 1), round(fats, 1)
+
 
 # --- API Call ---
 def generate_implicature(api_key, image_data_uri, age, weight, height, gender, meal_type):
@@ -53,6 +55,7 @@ def generate_implicature(api_key, image_data_uri, age, weight, height, gender, m
     except Exception as e:
         return f"API Error: {e}"
 
+
 # --- Extract Portion Info ---
 def extract_daily_intake_info(response_text):
     match = re.search(
@@ -60,6 +63,7 @@ def extract_daily_intake_info(response_text):
         response_text, re.IGNORECASE
     )
     return match.group(0).strip() if match else "Couldn't extract daily intake portion."
+
 
 # --- Extract Nutritional Values ---
 def extract_nutritional_values(response_text):
@@ -81,6 +85,34 @@ def extract_nutritional_values(response_text):
             value = next((float(g) for g in match.groups() if g is not None), None)
             nutrients[key] = value
     return nutrients
+
+
+# --- Meal Portion and Example Data ---
+MEAL_DISTRIBUTION = {
+    "Breakfast": 0.25,
+    "Lunch": 0.35,
+    "Dinner": 0.30,
+    "Snack": 0.10
+}
+MEAL_EXAMPLES = {
+    "Breakfast": [
+        {"label": "Small", "desc": "Oatmeal (1/2 cup) with berries and almonds", "Calories": 220, "Protein": 7, "Carbs": 38, "Fat": 6},
+        {"label": "Large", "desc": "2 eggs, 2 toast, 1 banana", "Calories": 420, "Protein": 20, "Carbs": 55, "Fat": 14}
+    ],
+    "Lunch": [
+        {"label": "Small", "desc": "Grilled chicken salad (100g chicken, greens)", "Calories": 280, "Protein": 25, "Carbs": 10, "Fat": 12},
+        {"label": "Large", "desc": "Brown rice bowl (1 cup rice, 100g paneer, veggies)", "Calories": 520, "Protein": 22, "Carbs": 70, "Fat": 14}
+    ],
+    "Dinner": [
+        {"label": "Small", "desc": "Mixed veg stir-fry + tofu (100g)", "Calories": 250, "Protein": 15, "Carbs": 22, "Fat": 10},
+        {"label": "Large", "desc": "Fish curry (120g) + 2 rotis + salad", "Calories": 480, "Protein": 28, "Carbs": 50, "Fat": 16}
+    ],
+    "Snack": [
+        {"label": "Small", "desc": "Fruit yogurt (100g)", "Calories": 90, "Protein": 5, "Carbs": 15, "Fat": 1},
+        {"label": "Large", "desc": "Peanut butter sandwich (1 slice bread, 1 tbsp PB)", "Calories": 180, "Protein": 6, "Carbs": 20, "Fat": 8}
+    ]
+}
+
 
 # --- Main App ---
 def main():
@@ -107,7 +139,32 @@ def main():
     # Calculate daily needs
     calories, protein, carbs, fats = get_daily_nutrition_requirements(age, weight, height, gender)
 
-    # Nutrient Table
+    # --- Show meal-type nutrition requirement table ---
+    meal_portion = MEAL_DISTRIBUTION.get(meal_type, 0.25)
+    meal_targets = {
+        "Calories": round(calories * meal_portion, 1),
+        "Protein (g)": round(protein * meal_portion, 1),
+        "Carbohydrates (g)": round(carbs * meal_portion, 1),
+        "Fat (g)": round(fats * meal_portion, 1)
+    }
+    st.markdown(f"### 🍽️ {meal_type} Nutrition Targets (portion of daily)")
+    st.table({
+        "Nutrient": list(meal_targets.keys()),
+        f"{meal_type} Target": list(meal_targets.values())
+    })
+
+    # --- Meal Examples Section ---
+    st.markdown(f"### 🥗 {meal_type} Meal Examples")
+    examples = MEAL_EXAMPLES[meal_type]
+    col1, col2 = st.columns(2)
+    for i, ex in enumerate(examples):
+        with [col1, col2][i]:
+            st.markdown(f"**{ex['label']} Portion**")
+            st.markdown(f"{ex['desc']}")
+            st.markdown(f"Calories: {ex['Calories']} kcal")
+            st.markdown(f"Protein: {ex['Protein']}g | Carbs: {ex['Carbs']}g | Fat: {ex['Fat']}g")
+
+    # --- Main daily nutrient table ---
     st.markdown(f"### 🧮 Recommended Daily Intake for **{user_name}**")
     st.markdown(f"**Age**: {age} | **Weight**: {weight} kg | **Height**: {height} cm")
     recommendation_data = {
@@ -133,7 +190,6 @@ def main():
             percent(meal["nutrition"]["carbohydrates"], carbs),
             percent(meal["nutrition"]["fat"], fats),
         ]
-
     # Add summary row for total intake
     total_intake = {
         "Calories": sum(meal["nutrition"]["calories"] or 0 for meal in st.session_state.meals),
@@ -147,20 +203,30 @@ def main():
         f"{total_intake['Carbs']} g",
         f"{total_intake['Fat']} g"
     ]
-
     st.table(recommendation_data)
 
-    # Progress bars for each nutrient
+    # --- Progress bars for each nutrient (daily) ---
     st.subheader("🌱 Progress toward Daily Nutrient Goals")
     st.progress(min(1.0, total_intake['Calories'] / calories), text=f"Calories: {total_intake['Calories']} / {calories}")
     st.progress(min(1.0, total_intake['Protein'] / protein), text=f"Protein: {total_intake['Protein']} / {protein}")
     st.progress(min(1.0, total_intake['Carbs'] / carbs), text=f"Carbs: {total_intake['Carbs']} / {carbs}")
     st.progress(min(1.0, total_intake['Fat'] / fats), text=f"Fat: {total_intake['Fat']} / {fats}")
 
+    # --- Progress for current meal type ---
+    meal_intake = {"calories": 0, "protein": 0, "carbohydrates": 0, "fat": 0}
+    for meal in st.session_state.meals:
+        if meal.get("meal_type") == meal_type:
+            for k in meal_intake:
+                meal_intake[k] += meal["nutrition"].get(k, 0) or 0
+    st.markdown(f"### 📊 {meal_type} Progress")
+    st.progress(min(1.0, meal_intake['calories'] / meal_targets["Calories"]), text=f"Calories: {meal_intake['calories']} / {meal_targets['Calories']}")
+    st.progress(min(1.0, meal_intake['protein'] / meal_targets["Protein (g)"]), text=f"Protein: {meal_intake['protein']} / {meal_targets['Protein (g)']}")
+    st.progress(min(1.0, meal_intake['carbohydrates'] / meal_targets["Carbohydrates (g)"]), text=f"Carbs: {meal_intake['carbohydrates']} / {meal_targets['Carbohydrates (g)']}")
+    st.progress(min(1.0, meal_intake['fat'] / meal_targets["Fat (g)"]), text=f"Fat: {meal_intake['fat']} / {meal_targets['Fat (g)']}")
+
     # --- Camera or File Upload ---
     st.markdown("### 📸 Capture or Upload Your Food Image")
     input_method = st.radio("Choose input method:", ["Camera", "File Upload"], horizontal=True)
-
     image_data_uri = None
     if input_method == "Camera":
         img_file_buffer = st.camera_input("Take a picture of your food")
@@ -186,7 +252,6 @@ def main():
                     result = generate_implicature(api_key, image_data_uri, age, weight, height, gender, meal_type)
                     intake_info = extract_daily_intake_info(result)
                     nutrient_vals = extract_nutritional_values(result)
-
                     # Save to session (limit to 5 meals, with image and meal_type)
                     if len(st.session_state.meals) >= 5:
                         st.session_state.meals.pop()
@@ -196,14 +261,13 @@ def main():
                         "analysis": result,
                         "meal_type": meal_type
                     })
-
                     st.success("✅ Analysis Complete!")
                     st.markdown(f"### 🥗 This meal provides **{intake_info}** of your daily intake.")
                     with st.expander("📋 Full Nutritional Analysis"):
                         st.markdown(result)
                     st.rerun()  # Refresh to update progress and history
 
-    # Meal History with Images
+    # --- Meal History with Images ---
     if st.session_state.meals:
         st.markdown("## 🕘 Meal History (Last 5 Meals)")
         for i, meal in enumerate(st.session_state.meals):
@@ -220,6 +284,7 @@ def main():
                 with st.expander("Show analysis"):
                     st.markdown(meal["analysis"])
             st.divider()
+
 
 if __name__ == "__main__":
     main()
