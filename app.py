@@ -86,7 +86,7 @@ def extract_nutritional_values(response_text):
 def main():
     st.set_page_config(page_title="🍲 Food Nutrition Analyzer", layout="centered")
     st.title("🍽️ Smart Food Nutrition Analyzer")
-    st.caption("Upload an image of your food to analyze its nutritional impact.")
+    st.caption("Upload or capture an image of your food to analyze its nutritional impact.")
 
     api_key = st.secrets["myconnection"]["YOUR_API_KEY"]
 
@@ -114,7 +114,6 @@ def main():
         "Nutrient": ["Calories", "Protein (g)", "Carbohydrates (g)", "Fat (g)"],
         "Daily Requirement": [f"{calories} kcal", f"{protein} g", f"{carbs} g", f"{fats} g"]
     }
-
     # Add meal columns with meal type names
     for i, meal in enumerate(st.session_state.meals):
         meal_name = meal.get("meal_type", f"Meal {i + 1}")
@@ -158,16 +157,29 @@ def main():
     st.progress(min(1.0, total_intake['Carbs'] / carbs), text=f"Carbs: {total_intake['Carbs']} / {carbs}")
     st.progress(min(1.0, total_intake['Fat'] / fats), text=f"Fat: {total_intake['Fat']} / {fats}")
 
-    # Upload and analyze
-    uploaded_file = st.file_uploader("📤 Upload your food image", type=["jpg", "jpeg", "png"])
-    if uploaded_file:
-        base64_image = base64.b64encode(uploaded_file.read()).decode("utf-8")
-        mime_type = uploaded_file.type
-        image_data_uri = f"data:{mime_type};base64,{base64_image}"
+    # --- Camera or File Upload ---
+    st.markdown("### 📸 Capture or Upload Your Food Image")
+    input_method = st.radio("Choose input method:", ["Camera", "File Upload"], horizontal=True)
 
+    image_data_uri = None
+    if input_method == "Camera":
+        img_file_buffer = st.camera_input("Take a picture of your food")
+        if img_file_buffer is not None:
+            bytes_data = img_file_buffer.getvalue()
+            mime_type = getattr(img_file_buffer, "type", "image/jpeg")
+            base64_image = base64.b64encode(bytes_data).decode("utf-8")
+            image_data_uri = f"data:{mime_type};base64,{base64_image}"
+    else:
+        uploaded_file = st.file_uploader("Upload your food image", type=["jpg", "jpeg", "png"])
+        if uploaded_file is not None:
+            base64_image = base64.b64encode(uploaded_file.read()).decode("utf-8")
+            mime_type = uploaded_file.type
+            image_data_uri = f"data:{mime_type};base64,{base64_image}"
+
+    if image_data_uri is not None:
         col1, col2 = st.columns([1, 2])
         with col1:
-            st.image(image_data_uri, caption="🍱 Uploaded Meal", use_container_width=True)
+            st.image(image_data_uri, caption="🍱 Your Meal", use_container_width=True)
         with col2:
             if st.button("🔍 Analyze Nutrition"):
                 with st.spinner("🧠 Analyzing nutritional content..."):
@@ -187,7 +199,6 @@ def main():
 
                     st.success("✅ Analysis Complete!")
                     st.markdown(f"### 🥗 This meal provides **{intake_info}** of your daily intake.")
-
                     with st.expander("📋 Full Nutritional Analysis"):
                         st.markdown(result)
                     st.rerun()  # Refresh to update progress and history
