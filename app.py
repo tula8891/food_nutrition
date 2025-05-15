@@ -3,7 +3,6 @@ import httpx
 import base64
 import re
 
-
 # --- Nutrition Calculation ---
 def get_daily_nutrition_requirements(age, weight, height, gender):
     if gender.lower() == "male":
@@ -17,7 +16,6 @@ def get_daily_nutrition_requirements(age, weight, height, gender):
     fats = (0.35 * calories) / 9
     return round(calories, 1), round(protein, 1), round(carbs, 1), round(fats, 1)
 
-
 # --- API Call ---
 def generate_implicature(api_key, image_data_uri, age, weight, height, gender, meal_type):
     url = "https://api.perplexity.ai/chat/completions"
@@ -25,15 +23,6 @@ def generate_implicature(api_key, image_data_uri, age, weight, height, gender, m
         "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json"
     }
-    # user_context = (
-    #     f"This image is from a {meal_type}. The person consuming this food is {age} years old, "
-    #     f"weighs {weight} kg, is {height} cm tall, and is {gender}. "
-    #     "Please analyze the nutritional content of the food like calories, Proteins, carbohydrates and fats shown in the image and determine if it is appropriate "
-    #     "always give each nutrition part in different line like calories:value, Proteins:value, carbohydrates:value and fats:value "
-    #     "for this person, considering their physical characteristics and the meal context. "
-    #     "Additionally, indicate approximately what portion of their recommended daily nutritional intake "
-    #     "this meal provides (e.g., 1/4, 1/2, etc.)."
-    # )
     user_context = (
         "Given this meal: [detailed description], calculate and output the nutritional values using standard nutritional databases. "
         "Use EXACTLY this format, with each value on its own line and no extra text:\n\n"
@@ -44,7 +33,6 @@ def generate_implicature(api_key, image_data_uri, age, weight, height, gender, m
         "Daily Intake Portion: [fraction]\n"
         "Do not summarize, explain, or add any extra text, formatting, or commentary. Output only the five lines above."
     )
-
     data = {
         "model": "sonar-pro",
         "messages": [
@@ -65,7 +53,6 @@ def generate_implicature(api_key, image_data_uri, age, weight, height, gender, m
     except Exception as e:
         return f"API Error: {e}"
 
-
 # --- Extract Portion Info ---
 def extract_daily_intake_info(response_text):
     match = re.search(
@@ -73,7 +60,6 @@ def extract_daily_intake_info(response_text):
         response_text, re.IGNORECASE
     )
     return match.group(0).strip() if match else "Couldn't extract daily intake portion."
-
 
 # --- Extract Nutritional Values ---
 def extract_nutritional_values(response_text):
@@ -83,23 +69,18 @@ def extract_nutritional_values(response_text):
         "carbohydrates": None,
         "fat": None
     }
-
     patterns = {
         "calories": r'(?i)(?:calories|kcal)\D*?(\d+\.?\d*)|(\d+\.?\d*)\s*(?:kcal|calories)',
         "protein": r'(?i)(?:protein|prot)\D*?(\d+\.?\d*)|(\d+\.?\d*)\s*(?:g|grams?)\s*(?:protein|prot)',
         "carbohydrates": r'(?i)(?:carbohydrates|carbs)\D*?(\d+\.?\d*)|(\d+\.?\d*)\s*(?:g|grams?)\s*(?:carbohydrates|carbs)',
         "fat": r'(?i)(?:fat|lipids)\D*?(\d+\.?\d*)|(\d+\.?\d*)\s*(?:g|grams?)\s*(?:fat|lipids)'
     }
-
     for key, pattern in patterns.items():
         match = re.search(pattern, response_text)
         if match:
-            # Extract first non-None group value
             value = next((float(g) for g in match.groups() if g is not None), None)
             nutrients[key] = value
-
     return nutrients
-
 
 # --- Main App ---
 def main():
@@ -134,14 +115,13 @@ def main():
         "Daily Requirement": [f"{calories} kcal", f"{protein} g", f"{carbs} g", f"{fats} g"]
     }
 
-    # Add meal columns
+    # Add meal columns with meal type names
     for i, meal in enumerate(st.session_state.meals):
-        meal_col = f"Meal {i + 1} (Amount)"
-        percent_col = f"Meal {i + 1} (%)"
-
+        meal_name = meal.get("meal_type", f"Meal {i + 1}")
+        meal_col = f"{meal_name} (Amount)"
+        percent_col = f"{meal_name} (%)"
         def percent(part, whole):
             return f"{round((part / whole) * 100)}%" if part and whole else "N/A"
-
         recommendation_data[meal_col] = [
             f"{meal['nutrition']['calories']} kcal" if meal["nutrition"]["calories"] else "N/A",
             f"{meal['nutrition']['protein']} g" if meal["nutrition"]["protein"] else "N/A",
@@ -173,8 +153,7 @@ def main():
 
     # Progress bars for each nutrient
     st.subheader("🌱 Progress toward Daily Nutrient Goals")
-    st.progress(min(1.0, total_intake['Calories'] / calories),
-                text=f"Calories: {total_intake['Calories']} / {calories}")
+    st.progress(min(1.0, total_intake['Calories'] / calories), text=f"Calories: {total_intake['Calories']} / {calories}")
     st.progress(min(1.0, total_intake['Protein'] / protein), text=f"Protein: {total_intake['Protein']} / {protein}")
     st.progress(min(1.0, total_intake['Carbs'] / carbs), text=f"Carbs: {total_intake['Carbs']} / {carbs}")
     st.progress(min(1.0, total_intake['Fat'] / fats), text=f"Fat: {total_intake['Fat']} / {fats}")
@@ -196,13 +175,14 @@ def main():
                     intake_info = extract_daily_intake_info(result)
                     nutrient_vals = extract_nutritional_values(result)
 
-                    # Save to session (limit to 5 meals, with image)
+                    # Save to session (limit to 5 meals, with image and meal_type)
                     if len(st.session_state.meals) >= 5:
                         st.session_state.meals.pop()
                     st.session_state.meals.insert(0, {
                         "nutrition": nutrient_vals,
                         "image": image_data_uri,
-                        "analysis": result
+                        "analysis": result,
+                        "meal_type": meal_type
                     })
 
                     st.success("✅ Analysis Complete!")
@@ -220,7 +200,8 @@ def main():
             with cols[0]:
                 st.image(meal["image"], use_container_width=True)
             with cols[1]:
-                st.markdown(f"**Meal {i + 1}:**")
+                meal_name = meal.get("meal_type", f"Meal {i + 1}")
+                st.markdown(f"**{meal_name}:**")
                 st.markdown(f"- Calories: {meal['nutrition']['calories'] or 'N/A'} kcal")
                 st.markdown(f"- Protein: {meal['nutrition']['protein'] or 'N/A'} g")
                 st.markdown(f"- Carbs: {meal['nutrition']['carbohydrates'] or 'N/A'} g")
@@ -228,7 +209,6 @@ def main():
                 with st.expander("Show analysis"):
                     st.markdown(meal["analysis"])
             st.divider()
-
 
 if __name__ == "__main__":
     main()
