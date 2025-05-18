@@ -1,4 +1,4 @@
-```markdown
+
 # 🥗 Food Nutrition Analyzer from Image
 
 Analyze the nutritional content of your meals directly from an image! This Streamlit app uses AI to assess whether a meal is appropriate for you based on your age, weight, height, gender, and meal type.
@@ -71,7 +71,3 @@ Contributions are welcome! Please open an issue or submit a pull request via the
 
 This project is open-source. See the [GitHub repo](https://github.com/tula8891/food_nutrition) for details.
 
----
-```
-
----
