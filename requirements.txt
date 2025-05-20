@@ -1,2 +1,5 @@
 openai==1.23.0  
+streamlit
+httpx
+streamlit-option-menu
 

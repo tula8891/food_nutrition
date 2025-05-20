@@ -3,8 +3,123 @@ import httpx
 import base64
 import re
 
+# --- PAGE CONFIG ---
+st.set_page_config(
+    page_title="🍽️ NutriVision AI",
+    page_icon="🍽️", 
+)
 
-# --- Nutrition Calculation ---
+# --- DUMMY CREDENTIALS ---
+DUMMY_EMAIL = "test@example.com"
+DUMMY_PASSWORD = "test123"
+
+if 'authenticated' not in st.session_state:
+    st.session_state.authenticated = False
+
+# --- MODERN CARD CSS ---
+st.markdown("""
+<style>
+body {
+    background: #f7f9fa;
+}
+.card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08), 0 1.5px 6px rgba(0,0,0,0.05);
+    padding: 2rem 2.5rem;
+    margin: 1.5rem auto;
+    max-width: 420px;
+}
+.card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+}
+.card-sub {
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 1.2rem;
+}
+.feature-row {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+@media (min-width: 650px) {
+    .feature-row {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+.feature-card {
+    background: #f4f7fb;
+    border-radius: 10px;
+    padding: 1rem;
+    flex: 1;
+    min-width: 120px;
+    text-align: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.how-card {
+    background: #f9fafb;
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    margin-top: 1.2rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.login-card {
+    margin-top: 2rem;
+    background: #fff;
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+.login-demo {
+    color: #222; 
+    font-size: 1.13rem; 
+    margin-bottom: 0.7rem;
+}
+</style>
+""", unsafe_allow_html=True)
+
+def show_landing_page():
+    # --- Main Card ---
+    st.markdown(
+        '<div style="display:flex;align-items:center;gap:0.5rem;">'
+        '<img src="https://img.icons8.com/color/96/000000/healthy-food.png" width="48"/>'
+        '<span class="card-title">NutriVision AI</span>'
+        '</div>', unsafe_allow_html=True)
+    st.markdown('<div class="card-sub">Snap. Analyze. Eat Smarter.<br>Your AI-powered nutrition assistant.</div>', unsafe_allow_html=True)
+    
+    # --- Features Card ---
+    st.markdown('<div class="feature-row">', unsafe_allow_html=True)
+    st.markdown('<div class="feature-card"><b>📸 Instant Analysis</b><br>Photo to nutrition in seconds</div>', unsafe_allow_html=True)
+    st.markdown('<div class="feature-card"><b>📊 Smart Tracking</b><br>Personalized daily goals</div>', unsafe_allow_html=True)
+    st.markdown('<div class="feature-card"><b>🎯 Simple & Secure</b><br>Private and easy to use</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+    
+    # --- How it works Card ---
+    st.markdown('<div class="how-card"><b>How it works:</b><ol>'
+                '<li>Login with demo credentials</li>'
+                '<li>Enter your details</li>'
+                '<li>Upload or snap your meal</li>'
+                '<li>Get instant nutrition analysis</li>'
+                '</ol></div>', unsafe_allow_html=True)
+
+    # --- Login Card ---
+    st.markdown('<div class="login-card">', unsafe_allow_html=True)
+    st.markdown("### 🔐 Demo Login")
+    st.markdown(f"<div class='login-demo'>Demo: <b>{DUMMY_EMAIL}</b> / <b>{DUMMY_PASSWORD}</b></div>", unsafe_allow_html=True)
+    email = st.text_input("📧 Email", placeholder="Enter your email")
+    password = st.text_input("🔑 Password", type="password", placeholder="Enter your password")
+    if st.button("Login", key="login_button"):
+        if email == DUMMY_EMAIL and password == DUMMY_PASSWORD:
+            st.session_state.authenticated = True
+            st.rerun()
+        else:
+            st.error("Invalid credentials. Use the demo login above.")
+    st.markdown('</div>', unsafe_allow_html=True)  # Close login card
+
 def get_daily_nutrition_requirements(age, weight, height, gender):
     if gender.lower() == "male":
         bmr = 10 * weight + 6.25 * height - 5 * age + 5
@@ -17,8 +132,6 @@ def get_daily_nutrition_requirements(age, weight, height, gender):
     fats = (0.35 * calories) / 9
     return round(calories, 1), round(protein, 1), round(carbs, 1), round(fats, 1)
 
-
-# --- API Call ---
 def generate_implicature(api_key, image_data_uri, age, weight, height, gender, meal_type):
     url = "https://api.perplexity.ai/chat/completions"
     headers = {
@@ -55,8 +168,6 @@ def generate_implicature(api_key, image_data_uri, age, weight, height, gender, m
     except Exception as e:
         return f"API Error: {e}"
 
-
-# --- Extract Portion Info ---
 def extract_daily_intake_info(response_text):
     match = re.search(
         r"(approximately\s*)?(about\s*)?(?P<portion>1/4|1/2|1/3|1/5|1/6|1/8|one[-\s]?(fourth|half|third))[^.,]*",
@@ -64,8 +175,6 @@ def extract_daily_intake_info(response_text):
     )
     return match.group(0).strip() if match else "Couldn't extract daily intake portion."
 
-
-# --- Extract Nutritional Values ---
 def extract_nutritional_values(response_text):
     nutrients = {
         "calories": None,
@@ -86,16 +195,16 @@ def extract_nutritional_values(response_text):
             nutrients[key] = value
     return nutrients
 
-
-# --- Main App ---
 def main():
-    st.set_page_config(page_title="🍲 Food Nutrition Analyzer", layout="centered")
+    if not st.session_state.authenticated:
+        show_landing_page()
+        return
+
     st.title("🍽️ Smart Food Nutrition Analyzer")
     st.caption("Upload or capture an image of your food to analyze its nutritional impact.")
 
     api_key = st.secrets["myconnection"]["YOUR_API_KEY"]
 
-    # Sidebar Inputs
     with st.sidebar:
         st.header("👤 Your Information")
         user_name = st.text_input("🧑 Name", value="Parmanand Sahu", placeholder="Enter your full name")
@@ -105,21 +214,17 @@ def main():
         gender = st.selectbox("⚧️ Gender", ["Male", "Female", "Other"])
         meal_type = st.selectbox("🍽️ Meal Type", ["Breakfast", "Lunch", "Dinner", "Snack"])
 
-    # Session state for meals (history)
     if "meals" not in st.session_state:
         st.session_state.meals = []
 
-    # Calculate daily needs
     calories, protein, carbs, fats = get_daily_nutrition_requirements(age, weight, height, gender)
 
-    # Nutrient Table
     st.markdown(f"### 🧮 Recommended Daily Intake for **{user_name}**")
     st.markdown(f"**Age**: {age} | **Weight**: {weight} kg | **Height**: {height} cm")
     recommendation_data = {
         "Nutrient": ["Calories", "Protein (g)", "Carbohydrates (g)", "Fat (g)"],
         "Daily Requirement": [f"{calories} kcal", f"{protein} g", f"{carbs} g", f"{fats} g"]
     }
-    # Add meal columns with meal type names
     for i, meal in enumerate(st.session_state.meals):
         meal_name = meal.get("meal_type", f"Meal {i + 1}")
         meal_col = f"{meal_name} (Amount)"
@@ -138,8 +243,6 @@ def main():
             percent(meal["nutrition"]["carbohydrates"], carbs),
             percent(meal["nutrition"]["fat"], fats),
         ]
-
-    # Add summary row for total intake
     total_intake = {
         "Calories": sum(meal["nutrition"]["calories"] or 0 for meal in st.session_state.meals),
         "Protein": sum(meal["nutrition"]["protein"] or 0 for meal in st.session_state.meals),
@@ -155,14 +258,12 @@ def main():
 
     st.table(recommendation_data)
 
-    # Progress bars for each nutrient
     st.subheader("🌱 Progress toward Daily Nutrient Goals")
     st.progress(min(1.0, total_intake['Calories'] / calories), text=f"Calories: {total_intake['Calories']} / {calories}")
     st.progress(min(1.0, total_intake['Protein'] / protein), text=f"Protein: {total_intake['Protein']} / {protein}")
     st.progress(min(1.0, total_intake['Carbs'] / carbs), text=f"Carbs: {total_intake['Carbs']} / {carbs}")
     st.progress(min(1.0, total_intake['Fat'] / fats), text=f"Fat: {total_intake['Fat']} / {fats}")
 
-    # --- Camera or File Upload ---
     st.markdown("### 📸 Capture or Upload Your Food Image")
     input_method = st.radio("Choose input method:", ["Camera", "File Upload"], horizontal=True)
 
@@ -191,8 +292,6 @@ def main():
                     result = generate_implicature(api_key, image_data_uri, age, weight, height, gender, meal_type)
                     intake_info = extract_daily_intake_info(result)
                     nutrient_vals = extract_nutritional_values(result)
-
-                    # Save to session (limit to 5 meals, with image and meal_type)
                     if len(st.session_state.meals) >= 5:
                         st.session_state.meals.pop()
                     st.session_state.meals.insert(0, {
@@ -201,14 +300,12 @@ def main():
                         "analysis": result,
                         "meal_type": meal_type
                     })
-
                     st.success("✅ Analysis Complete!")
                     st.markdown(f"### 🥗 This meal provides **{intake_info}** of your daily intake.")
                     with st.expander("📋 Full Nutritional Analysis"):
                         st.markdown(result)
-                    st.rerun()  # Refresh to update progress and history
+                    st.rerun()
 
-    # Meal History with Images
     if st.session_state.meals:
         st.markdown("## 🕘 Meal History (Last 5 Meals)")
         for i, meal in enumerate(st.session_state.meals):
@@ -225,7 +322,6 @@ def main():
                 with st.expander("Show analysis"):
                     st.markdown(meal["analysis"])
             st.divider()
-
 
 if __name__ == "__main__":
     main()
