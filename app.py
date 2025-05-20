@@ -84,6 +84,7 @@ body {
 
 def show_landing_page():
     # --- Main Card ---
+    
     st.markdown(
         '<div style="display:flex;align-items:center;gap:0.5rem;">'
         '<img src="https://img.icons8.com/color/96/000000/healthy-food.png" width="48"/>'
@@ -93,11 +94,27 @@ def show_landing_page():
     
     # --- Features Card ---
     st.markdown('<div class="feature-row">', unsafe_allow_html=True)
-    st.markdown('<div class="feature-card"><b>📸 Instant Analysis</b><br>Photo to nutrition in seconds</div>', unsafe_allow_html=True)
-    st.markdown('<div class="feature-card"><b>📊 Smart Tracking</b><br>Personalized daily goals</div>', unsafe_allow_html=True)
-    st.markdown('<div class="feature-card"><b>🎯 Simple & Secure</b><br>Private and easy to use</div>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
     
+    st.markdown('</div>', unsafe_allow_html=True)
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.markdown(
+            '<div class="feature-card"><b>📸 Instant Analysis</b><br>Photo to nutrition in seconds</div>',
+            unsafe_allow_html=True
+        )
+
+    with col2:
+        st.markdown(
+            '<div class="feature-card"><b>📊 Smart Tracking</b><br>Personalized daily goals</div>',
+            unsafe_allow_html=True
+        )
+
+    with col3:
+        st.markdown(
+            '<div class="feature-card"><b>🎯 Simple & Secure</b><br>Private and easy to use</div>',
+            unsafe_allow_html=True
+        )
     # --- How it works Card ---
     st.markdown('<div class="how-card"><b>How it works:</b><ol>'
                 '<li>Login with demo credentials</li>'
