@@ -7,16 +7,16 @@ import base64
 def img_to_base64(img_path):
     with open(img_path, "rb") as img_file:
         return base64.b64encode(img_file.read()).decode()
-img_base64 = img_to_base64("test1.jpeg")
+img_base64 = img_to_base64("test4.png")
 img_html = f'''
 <div style="display:flex;align-items:center;gap:0.5rem;">
-    <img src="data:image/jpeg;base64,{img_base64}" width="1400", height="500"/>
+    <img src="data:image/jpeg;base64,{img_base64}" width="1200", height="500"/>
 </div>
 '''
-img_base64 = img_to_base64("2.jpeg")
+img_base64 = img_to_base64("3.jpeg")
 img2_html = f'''
 <div style="display:flex;align-items:center;gap:0.5rem;">
-    <img src="data:image/jpeg;base64,{img_base64}" width="700", height="500"/>
+    <img src="data:image/jpeg;base64,{img_base64}" width="1200", height="500"/>
 </div>
 '''
 
@@ -134,14 +134,21 @@ def show_landing_page():
             '<div class="feature-card"><b>🎯 Simple & Secure</b><br>Private and easy to use</div>',
             unsafe_allow_html=True
         )
+    st.markdown('</div>', unsafe_allow_html=True)
     st.markdown(img_html, unsafe_allow_html=True)
     # --- How it works Card ---
-    st.markdown('<div class="how-card"><b>How it works:</b><ol>'
-                # '<li>Login with demo credentials</li>'
-                # '<li>Enter your details</li>'
-                # '<li>Upload or snap your meal</li>'
-                # '<li>Get instant nutrition analysis</li>'
-                '</ol></div>', unsafe_allow_html=True)
+    st.markdown('<div class="feature-row">', unsafe_allow_html=True)
+    # st.markdown('<div class="how-card"><b>How it works:</b><ol>'
+    #             '</ol></div>', unsafe_allow_html=True)
+    st.markdown(
+    """
+    <div class="how-card" style="font-size:24px; font-weight:bold;">
+        How it works ?
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+    st.markdown('</div>', unsafe_allow_html=True)
     st.markdown(img2_html, unsafe_allow_html=True)
     # --- Login Card ---
     st.markdown('<div class="login-card">', unsafe_allow_html=True)
