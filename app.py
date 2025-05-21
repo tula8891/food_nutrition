@@ -97,19 +97,61 @@ body {
     font-size: 1.13rem; 
     margin-bottom: 0.7rem;
 }
+/* Custom button styling */
+.stButton > button {
+    padding: .2rem 1rem;
+    border: 1px solid #4CAF50;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    border-radius: 8px;
+    width: 100%;
+}
+
+.stButton > button:hover {
+    background-color: #45a049;
+}
+
+.btn-group {
+    display: flex;
+    gap: 8px;
+}
 </style>
 """, unsafe_allow_html=True)
 
-def show_landing_page():
-    # --- Main Card ---
-    # st.markdown(
-    #     '<div style="display:flex;align-items:center;gap:0.5rem;">'
-    #     '<img src="https://img.icons8.com/color/96/000000/healthy-food.png"/>'
-    #     '<span class="card-title">NutriVision AI</span>'
-    #     '</div>', unsafe_allow_html=True)
-    # st.markdown('<div class="card-sub">Snap. Analyze. Eat Smarter.<br>Your AI-powered nutrition assistant.</div>', unsafe_allow_html=True)
+def show_login_page():
+    st.markdown(
+        '''
+        <div style="display:flex;align-items:center;gap:0.5rem;">
+            <img src="https://img.icons8.com/color/96/000000/healthy-food.png" width="48"/>
+            <span style="font-size:1.5rem;font-weight:600;">NutriVision AI</span>
+        </div>
+        ''', unsafe_allow_html=True
+    )
     
-# Create two columns
+    st.markdown('<div class="login-card">', unsafe_allow_html=True)
+    st.markdown("### 🔐 Login")
+    st.markdown(f"<div class='login-demo'>Demo: <b>{DUMMY_EMAIL}</b> / <b>{DUMMY_PASSWORD}</b></div>", unsafe_allow_html=True)
+    email = st.text_input("📧 Email", placeholder="Enter your email")
+    password = st.text_input("🔑 Password", type="password", placeholder="Enter your password")
+    
+    st.markdown('<div class="btn-group">', unsafe_allow_html=True)
+    if st.button("Login", key="login_button"):
+        if email == DUMMY_EMAIL and password == DUMMY_PASSWORD:
+            st.session_state.authenticated = True
+            st.rerun()
+        else:
+            st.error("Invalid credentials. Use the demo login above.")
+    if st.button("Back to Home"):
+        st.session_state.page = "home"
+        st.rerun()
+    st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+
+def show_landing_page():
+    # Create two columns
     col1, col2 = st.columns([2, 1])  # Adjust the ratio if needed
 
     with col1:
@@ -131,44 +173,14 @@ def show_landing_page():
         )
 
     with col2:
-        st.markdown(
-            """
-            <style>
-            .btn-group button {
-                padding: .2rem 1rem;
-                border: 1px solid #4CAF50;
-                background-color: #4CAF50;
-                color: white;
-                cursor: pointer;
-                font-size: 16px;
-                transition: background-color 0.3s ease;
-            }
+        st.markdown('<div class="btn-group">', unsafe_allow_html=True)
+        if st.button("Login"):
+            st.session_state.page = "login"
+            st.rerun()
+        if st.button("Sign Up"):
+            st.info("Sign up functionality coming soon!")
+        st.markdown('</div>', unsafe_allow_html=True)
 
-            .btn-group button:first-child {
-                border-radius: 8px 8px 8px 8px;
-                margin-right: 8px;  /* Small gap between buttons */
-            }
-
-            .btn-group button:last-child {
-                border-radius: 8px 8px 8px 8px;
-                border-left: none;
-            }
-
-            .btn-group button:hover {
-                background-color: #45a049;
-            }
-            </style>
-
-            <div class="btn-group" style="display: flex;">
-                <form action="#">
-                    <button type="submit">Login</button>
-                </form>
-                <form action="#">
-                    <button type="submit">Sign Up</button>
-                </form>
-            </div>
-            """,
-            unsafe_allow_html=True)
     # --- Features Card ---
     st.markdown('<div class="feature-row">', unsafe_allow_html=True)
     
@@ -194,10 +206,9 @@ def show_landing_page():
         )
     st.markdown('</div>', unsafe_allow_html=True)
     st.markdown(img_html, unsafe_allow_html=True)
+    
     # --- How it works Card ---
     st.markdown('<div class="feature-row">', unsafe_allow_html=True)
-    # st.markdown('<div class="how-card"><b>How it works:</b><ol>'
-    #             '</ol></div>', unsafe_allow_html=True)
     st.markdown(
     """
     <div class="how-card" style="font-size:24px; font-weight:bold;">
@@ -205,22 +216,9 @@ def show_landing_page():
     </div>
     """,
     unsafe_allow_html=True
-)
+    )
     st.markdown('</div>', unsafe_allow_html=True)
     st.markdown(img2_html, unsafe_allow_html=True)
-    # --- Login Card ---
-    st.markdown('<div class="login-card">', unsafe_allow_html=True)
-    st.markdown("### 🔐 Demo Login")
-    st.markdown(f"<div class='login-demo'>Demo: <b>{DUMMY_EMAIL}</b> / <b>{DUMMY_PASSWORD}</b></div>", unsafe_allow_html=True)
-    email = st.text_input("📧 Email", placeholder="Enter your email")
-    password = st.text_input("🔑 Password", type="password", placeholder="Enter your password")
-    if st.button("Login", key="login_button"):
-        if email == DUMMY_EMAIL and password == DUMMY_PASSWORD:
-            st.session_state.authenticated = True
-            st.rerun()
-        else:
-            st.error("Invalid credentials. Use the demo login above.")
-    st.markdown('</div>', unsafe_allow_html=True)  # Close login card
 
 def get_daily_nutrition_requirements(age, weight, height, gender):
     if gender.lower() == "male":
@@ -298,8 +296,14 @@ def extract_nutritional_values(response_text):
     return nutrients
 
 def main():
+    if 'page' not in st.session_state:
+        st.session_state.page = "home"
+        
     if not st.session_state.authenticated:
-        show_landing_page()
+        if st.session_state.page == "login":
+            show_login_page()
+        else:
+            show_landing_page()
         return
 
     st.title("🍽️ Smart Food Nutrition Analyzer")
@@ -315,6 +319,12 @@ def main():
         height = st.number_input("📏 Height (cm)", min_value=50.0, max_value=250.0, value=172.0)
         gender = st.selectbox("⚧️ Gender", ["Male", "Female", "Other"])
         meal_type = st.selectbox("🍽️ Meal Type", ["Breakfast", "Lunch", "Dinner", "Snack"])
+        
+        st.markdown("---")  # Add a separator
+        if st.button("🚪 Logout", key="logout_button"):
+            st.session_state.authenticated = False
+            st.session_state.page = "login"
+            st.rerun()
 
     if "meals" not in st.session_state:
         st.session_state.meals = []
