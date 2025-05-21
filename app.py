@@ -299,6 +299,19 @@ def show_landing_page():
         )
     st.markdown('</div>', unsafe_allow_html=True)
 
+    #footer
+    st.markdown(
+    """
+    <hr style="margin-top: 50px;">
+    <div style="text-align: center; color: gray; font-size: 14px;">
+        &copy; 2025 All rights reserved.<br>
+        Developed by <a href="https://parmanandsahu.com/" target="_blank" style="color: blue;">Parmanand Sahu</a> & <a href="https://in.linkedin.com/in/tula-ram-sahu-003226104" target="_blank" style="color: blue;">Tula Ram Sahu</a>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+
 def get_daily_nutrition_requirements(age, weight, height, gender):
     if gender.lower() == "male":
         bmr = 10 * weight + 6.25 * height - 5 * age + 5
