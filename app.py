@@ -131,7 +131,7 @@ def show_login_page():
         ''', unsafe_allow_html=True
     )
     
-    st.markdown('<div class="login-card">', unsafe_allow_html=True)
+    # st.markdown('<div class="login-card">', unsafe_allow_html=True)
     st.markdown("### 🔐 Login")
     st.markdown(f"<div class='login-demo'>Demo: <b>{DUMMY_EMAIL}</b> / <b>{DUMMY_PASSWORD}</b></div>", unsafe_allow_html=True)
     email = st.text_input("📧 Email", placeholder="Enter your email")
