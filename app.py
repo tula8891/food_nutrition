@@ -102,15 +102,73 @@ body {
 
 def show_landing_page():
     # --- Main Card ---
+    # st.markdown(
+    #     '<div style="display:flex;align-items:center;gap:0.5rem;">'
+    #     '<img src="https://img.icons8.com/color/96/000000/healthy-food.png"/>'
+    #     '<span class="card-title">NutriVision AI</span>'
+    #     '</div>', unsafe_allow_html=True)
+    # st.markdown('<div class="card-sub">Snap. Analyze. Eat Smarter.<br>Your AI-powered nutrition assistant.</div>', unsafe_allow_html=True)
     
+# Create two columns
+    col1, col2 = st.columns([2, 1])  # Adjust the ratio if needed
 
-    st.markdown(
-        '<div style="display:flex;align-items:center;gap:0.5rem;">'
-        '<img src="https://img.icons8.com/color/96/000000/healthy-food.png"/>'
-        '<span class="card-title">NutriVision AI</span>'
-        '</div>', unsafe_allow_html=True)
-    st.markdown('<div class="card-sub">Snap. Analyze. Eat Smarter.<br>Your AI-powered nutrition assistant.</div>', unsafe_allow_html=True)
-    
+    with col1:
+        st.markdown(
+            '''
+            <div style="display:flex;align-items:center;gap:0.5rem;">
+                <img src="https://img.icons8.com/color/96/000000/healthy-food.png" width="48"/>
+                <span style="font-size:1.5rem;font-weight:600;">NutriVision AI</span>
+            </div>
+            ''', unsafe_allow_html=True
+        )
+        st.markdown(
+            '''
+            <div style="font-size:1rem;color:gray;">
+                Snap. Analyze. Eat Smarter.<br>
+                Your AI-powered nutrition assistant.
+            </div>
+            ''', unsafe_allow_html=True
+        )
+
+    with col2:
+        st.markdown(
+            """
+            <style>
+            .btn-group button {
+                padding: .2rem 1rem;
+                border: 1px solid #4CAF50;
+                background-color: #4CAF50;
+                color: white;
+                cursor: pointer;
+                font-size: 16px;
+                transition: background-color 0.3s ease;
+            }
+
+            .btn-group button:first-child {
+                border-radius: 8px 8px 8px 8px;
+                margin-right: 8px;  /* Small gap between buttons */
+            }
+
+            .btn-group button:last-child {
+                border-radius: 8px 8px 8px 8px;
+                border-left: none;
+            }
+
+            .btn-group button:hover {
+                background-color: #45a049;
+            }
+            </style>
+
+            <div class="btn-group" style="display: flex;">
+                <form action="#">
+                    <button type="submit">Login</button>
+                </form>
+                <form action="#">
+                    <button type="submit">Sign Up</button>
+                </form>
+            </div>
+            """,
+            unsafe_allow_html=True)
     # --- Features Card ---
     st.markdown('<div class="feature-row">', unsafe_allow_html=True)
     
