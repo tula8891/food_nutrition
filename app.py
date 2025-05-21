@@ -7,10 +7,10 @@ import base64
 def img_to_base64(img_path):
     with open(img_path, "rb") as img_file:
         return base64.b64encode(img_file.read()).decode()
-img_base64 = img_to_base64("test.jpg")
+img_base64 = img_to_base64("test1.jpeg")
 img_html = f'''
 <div style="display:flex;align-items:center;gap:0.5rem;">
-    <img src="data:image/jpeg;base64,{img_base64}" width="700", height="500"/>
+    <img src="data:image/jpeg;base64,{img_base64}" width="1400", height="500"/>
 </div>
 '''
 img_base64 = img_to_base64("2.jpeg")
@@ -119,7 +119,7 @@ def show_landing_page():
 
     with col1:
         st.markdown(
-            '<div class="feature-card"><b>📸 Instant Analysis</b><br>Photo to nutrition in seconds</div>',
+            '<div class="feature-card"><b>📸 Instant Analysis</b><br>Photo to insights</div>',
             unsafe_allow_html=True
         )
 
@@ -137,10 +137,10 @@ def show_landing_page():
     st.markdown(img_html, unsafe_allow_html=True)
     # --- How it works Card ---
     st.markdown('<div class="how-card"><b>How it works:</b><ol>'
-                '<li>Login with demo credentials</li>'
-                '<li>Enter your details</li>'
-                '<li>Upload or snap your meal</li>'
-                '<li>Get instant nutrition analysis</li>'
+                # '<li>Login with demo credentials</li>'
+                # '<li>Enter your details</li>'
+                # '<li>Upload or snap your meal</li>'
+                # '<li>Get instant nutrition analysis</li>'
                 '</ol></div>', unsafe_allow_html=True)
     st.markdown(img2_html, unsafe_allow_html=True)
     # --- Login Card ---
