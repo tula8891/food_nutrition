@@ -130,6 +130,15 @@ def show_login_page():
         </div>
         ''', unsafe_allow_html=True
     )
+    st.markdown(
+            '''
+            <div style="font-size:0.9rem;color:gray;">
+                Snap. Analyze. Eat Smarter.<br>
+                Your AI-powered nutrition assistant.
+            </div>
+            ''', unsafe_allow_html=True
+        )
+
     
     # st.markdown('<div class="login-card">', unsafe_allow_html=True)
     st.markdown("### 🔐 Login")
@@ -211,7 +220,7 @@ def show_landing_page():
     st.markdown('<div class="feature-row">', unsafe_allow_html=True)
     st.markdown(
     """
-    <div class="how-card" style="font-size:24px; font-weight:bold;">
+     <div class="how-card" style="font-size:36px; font-weight:bold; text-align:center;">
         How it works ?
     </div>
     """,
@@ -219,6 +228,76 @@ def show_landing_page():
     )
     st.markdown('</div>', unsafe_allow_html=True)
     st.markdown(img2_html, unsafe_allow_html=True)
+
+
+
+    st.markdown(
+        """
+        <div class="how-card" style="font-size:36px; font-weight:bold; text-align:center;">
+            Why You’ll Love It
+        </div>
+        """,
+        unsafe_allow_html=True
+        )
+     # --- Features Card ---
+    st.markdown('<div class="feature-row">', unsafe_allow_html=True)
+    
+    st.markdown('</div>', unsafe_allow_html=True)
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.markdown(
+            '<div class="feature-card"><b>⏰ Time Saving</b><br>No manual <br> calorie <br> tracking needed</div>',
+            unsafe_allow_html=True
+        )
+
+    with col2:
+        st.markdown(
+            '<div class="feature-card"><b>📊 Informed Choices</b><br>Make smart <br>dietary <br>decisions</div>',
+            unsafe_allow_html=True
+        )
+
+    with col3:
+        st.markdown(
+            '<div class="feature-card"><b>📱 Device Friendly</b><br>Use on<br> any<br> device</div>',
+            unsafe_allow_html=True
+        )
+    st.markdown('</div>', unsafe_allow_html=True)
+
+
+    st.markdown(
+        """
+        <div class="how-card" style="font-size:36px; font-weight:bold; text-align:center;">
+        Who Needs This?
+        </div>
+        """,
+        unsafe_allow_html=True
+        )
+
+     # --- Features Card ---
+    st.markdown('<div class="feature-row">', unsafe_allow_html=True)
+    
+    st.markdown('</div>', unsafe_allow_html=True)
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.markdown(
+            '<div class="feature-card"><b>🏃 Health Enthusiasts</b><br>Track macros <br>effortlessly</div>',
+            unsafe_allow_html=True
+        )
+
+    with col2:
+        st.markdown(
+            '<div class="feature-card"><b>🏋️ Fitness Pros</b><br>Advise clients with <br> precision</div>',
+            unsafe_allow_html=True
+        )
+
+    with col3:
+        st.markdown(
+            '<div class="feature-card"><b>👨‍👩‍👧‍👦 Parents</b><br>Plan balanced meals for <br> kids</div>',
+            unsafe_allow_html=True
+        )
+    st.markdown('</div>', unsafe_allow_html=True)
 
 def get_daily_nutrition_requirements(age, weight, height, gender):
     if gender.lower() == "male":
