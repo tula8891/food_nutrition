@@ -1,73 +1,161 @@
+# 🍽️ NutriVision AI
 
-# 🥗 Food Nutrition Analyzer from Image
+NutriVision AI is an intelligent food nutrition analyzer that helps users track their nutritional intake through image analysis. The application uses AI to analyze food images and provide detailed nutritional information.
 
-Analyze the nutritional content of your meals directly from an image! This Streamlit app uses AI to assess whether a meal is appropriate for you based on your age, weight, height, gender, and meal type.
+## 🌟 Features
 
----
+- 📸 Instant food image analysis
+- 📊 Smart nutritional tracking
+- 🎯 Personalized daily goals
+- 📱 Cross-device compatibility
+- 🔒 Secure and private
 
-Live App: [Food Nutrition Analyzer](https://foodnutrition-bedw5i7pctwrb9zuvu3jzg.streamlit.app/)  
-GitHub Repo: [github.com/tula8891/food_nutrition](https://github.com/tula8891/food_nutrition)
+## 🚀 Quick Start
 
----
+### Prerequisites
 
-## Features
+- Python 3.8 or higher
+- pip (Python package manager)
+- Git
 
-- Upload a food image and get nutritional analysis using AI.
-- Personalized results based on user details (age, weight, height, gender, meal type).
-- Estimates what portion of your recommended daily nutritional intake the meal provides.
-- Simple, interactive web interface powered by Streamlit.
-
----
-
-## How to Use
-
-1. Open the App: Visit the [live app link](https://foodnutrition-bedw5i7pctwrb9zuvu3jzg.streamlit.app/).
-2. Enter Details: Use the sidebar to input your age, weight, height, gender, and select the meal type.
-3. Upload Image: Upload a photo of your meal (jpg, jpeg, or png).
-4. Analyze: Click "Analyze Nutrition" to get instant feedback on the meal’s nutritional value and suitability for you.
-5. View Results: The app will display a summary, including how much of your daily nutritional needs this meal covers.
-
----
-
-## Installation (For Local Use)
+### Installation
 
 1. Clone the repository:
-    ```
-    git clone https://github.com/tula8891/food_nutrition.git
-    cd food_nutrition
-    ```
-2. Install dependencies:
-    ```
-    pip install -r requirements.txt
-    ```
-3. Set up your API key in `.streamlit/secrets.toml`:
-    ```
-    [myconnection]
-    YOUR_API_KEY = "your_perplexity_api_key_here"
-    ```
-4. Run the app:
-    ```
-    streamlit run app.py
-    ```
+   ```bash
+   git clone https://github.com/yourusername/nutrivision-ai.git
+   cd nutrivision-ai
+   ```
 
----
+2. Set up the development environment:
+   - **Linux/Mac users:**
+     ```bash
+     make setup
+     ```
+   - **Windows users:**
+     ```bash
+     .\setup.bat
+     ```
 
-## How It Works
+3. Run the application:
+   ```bash
+   make run
+   ```
 
-- The app collects your personal details and meal image.
-- The image is encoded and sent to an AI API along with your details.
-- The AI analyzes the food, estimates nutritional content, and considers your physical characteristics and meal context.
-- Results are displayed in an easy-to-read format within the app.
+The application will be available at `http://localhost:8501`
 
----
+## 🛠️ Development
 
-## Contributing
+### Development Commands
 
-Contributions are welcome! Please open an issue or submit a pull request via the [GitHub repository](https://github.com/tula8891/food_nutrition).
+```bash
+# Install dependencies and set up development environment
+make setup
 
----
+# Run Streamlit application locally
+make run
 
-## License
+# Test all required package imports
+make test-imports
+```
 
-This project is open-source. See the [GitHub repo](https://github.com/tula8891/food_nutrition) for details.
+### Code Quality Commands
 
+```bash
+# Format code with black and isort
+make format
+
+# Run flake8 code quality checks
+make lint
+
+# Run type checking with mypy
+make type-check
+
+# Run all pre-commit checks (format, lint, test)
+make pre-commit
+```
+
+### Testing Commands
+
+```bash
+# Run tests with HTML and XML reports
+make test
+
+# Run tests with coverage report
+make test-coverage
+
+# Run async tests
+make test-async
+```
+
+### Release Commands
+
+```bash
+# Get next version number based on git tags
+make get-version
+
+# Create and push a new release (VERSION=x.y.z optional)
+make release VERSION=1.0.0
+```
+
+### Maintenance Commands
+
+```bash
+# Clean up cache files and test reports
+make clean
+```
+
+## 🧪 Testing
+
+The project uses pytest for testing. Test reports are generated in the `reports` directory:
+- HTML test report: `reports/test-report.html`
+- XML test report: `reports/test-report.xml`
+- Coverage report: `reports/coverage/index.html`
+
+### Testing Tools
+- pytest: Core testing framework
+- pytest-cov: Coverage reporting
+- pytest-mock: Mocking capabilities
+- pytest-asyncio: Async testing support
+
+## 📝 Code Quality
+
+### Code Style
+- [Black](https://black.readthedocs.io/) (line length: 130)
+- [isort](https://pycqa.github.io/isort/) for import sorting
+- trailing-whitespace removal
+- end-of-file-fixer
+
+### Linting & Type Checking
+- [Flake8](https://flake8.pycqa.org/) with custom ignores
+- [mypy](https://mypy.readthedocs.io/) with strict optional types
+
+### Security & Validation
+- detect-private-key
+- check-yaml
+- check-merge-conflict
+
+### Pre-commit Hooks
+All quality checks are automated using pre-commit hooks. The configuration can be found in `.pre-commit-config.yaml`.
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👥 Authors
+
+- [Parmanand Sahu](https://parmanandsahu.com/)
+- [Tula Ram Sahu](https://in.linkedin.com/in/tula-ram-sahu-003226104)
+
+## 🙏 Acknowledgments
+
+- Streamlit for the amazing web framework
+- Perplexity AI for the image analysis capabilities
+- All contributors who have helped shape this project
