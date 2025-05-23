@@ -1,5 +1,10 @@
 # 🍽️ NutriVision AI
 
+<div align="center">
+  <img src="https://img.icons8.com/color/96/000000/healthy-food.png" alt="NutriVision AI Logo" width="200"/>
+  <br>
+  <em>Your AI-powered nutrition assistant</em>
+</div>
 
 Developed and Designed By:
 
