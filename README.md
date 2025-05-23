@@ -22,6 +22,18 @@ This means that no one apart from the designated judges is permitted to access, 
 
 NutriVision AI is an intelligent food nutrition analyzer that helps users track their nutritional intake through image analysis. The application uses AI to analyze food images and provide detailed nutritional information.
 
+Mission :
+
+To empower individuals to make informed nutritional choices by providing instant, accurate, and personalized food analysis through AI technology, making healthy eating accessible and effortless for everyone.
+
+Vision  :
+
+To become the world's most trusted AI-powered nutrition assistant, transforming how people understand and manage their dietary habits, ultimately contributing to a healthier global community.
+
+Values  :
+
+
+
 ## 🌟 Features
 
 - 📸 Instant food image analysis
