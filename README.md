@@ -1,6 +1,5 @@
 # 🍽️ NutriVision AI
 
-NutriVision AI is an intelligent food nutrition analyzer that helps users track their nutritional intake through image analysis. The application uses AI to analyze food images and provide detailed nutritional information.
 
 Developed and Designed By:
 
@@ -9,6 +8,20 @@ Parmanand Sahu :   https://parmanandsahu.com/
 Tula Ram Sahu :    https://in.linkedin.com/in/tula-ram-sahu-003226104
 
 Website_url :       https://foodnutrition-bedw5i7pctwrb9zuvu3jzg.streamlit.app/
+
+
+### Note
+
+This is not open source project.
+
+We would like to inform you that the GitHub repository associated with the Snowflake-Mistral-RAG DevPost Challenge (https://snowflake-mistral-rag.devpost.com/) is restricted for use by judges only.
+
+This means that no one apart from the designated judges is permitted to access, clone, fork, or use the repository for any purpose.
+
+## Overview
+
+NutriVision AI is an intelligent food nutrition analyzer that helps users track their nutritional intake through image analysis. The application uses AI to analyze food images and provide detailed nutritional information.
+
 ## 🌟 Features
 
 - 📸 Instant food image analysis
