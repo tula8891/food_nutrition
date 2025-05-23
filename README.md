@@ -14,7 +14,7 @@ Website_url :       https://foodnutrition-bedw5i7pctwrb9zuvu3jzg.streamlit.app/
 
 This is not open source project.
 
-We would like to inform you that the GitHub repository associated with the Snowflake-Mistral-RAG DevPost Challenge (https://snowflake-mistral-rag.devpost.com/) is restricted for use by judges only.
+We would like to inform you that the GitHub repository associated with the Perplexity Hackathon DevPost Challenge (https://perplexityhackathon.devpost.com/) is restricted for use by judges only.
 
 This means that no one apart from the designated judges is permitted to access, clone, fork, or use the repository for any purpose.
 
