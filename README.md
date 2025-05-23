@@ -2,6 +2,13 @@
 
 NutriVision AI is an intelligent food nutrition analyzer that helps users track their nutritional intake through image analysis. The application uses AI to analyze food images and provide detailed nutritional information.
 
+Developed and Designed By:
+
+Parmanand Sahu :   https://parmanandsahu.com/
+
+Tula Ram Sahu :    https://in.linkedin.com/in/tula-ram-sahu-003226104
+
+Website_url :       https://foodnutrition-bedw5i7pctwrb9zuvu3jzg.streamlit.app/
 ## 🌟 Features
 
 - 📸 Instant food image analysis
