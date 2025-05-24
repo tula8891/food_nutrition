@@ -64,11 +64,11 @@ To become the world's most trusted AI-powered nutrition assistant, transforming 
 
 NutriVision AI leverages the Perplexity API to analyze food images and extract detailed nutritional information. Here's how it works:
 
-1. **Image Upload:** Users upload food images through the Streamlit interface.
-2. **API Call:** The app sends the image to the Perplexity API for analysis.
-   **Prompt:** This prompt instructs the AI to analyze a meal description and return only the core nutritional values in a strict five-line format with no extra text or explanation.
-3. **Response Processing:** The API returns detailed nutritional data, which is then processed and displayed to the user.
-4. **Error Handling:** The app includes robust error handling to manage API failures gracefully.
+1.  **Image Upload:** Users upload food images through the Streamlit interface.
+2.  **API Call:** The app sends the image to the Perplexity API for analysis.
+2.1 **Prompt:** This prompt instructs the AI to analyze a meal description and return only the core   nutritional values in a strict five-line format with no extra text or explanation.
+3.  **Response Processing:** The API returns detailed nutritional data, which is then processed and displayed to the user.
+4.  **Error Handling:** The app includes robust error handling to manage API failures gracefully.
 
 For more details on the Perplexity API, visit [Perplexity Hackathon DevPost Challenge](https://perplexityhackathon.devpost.com/).
 
