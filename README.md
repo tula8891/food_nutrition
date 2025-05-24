@@ -253,3 +253,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Streamlit for the amazing web framework
 - Perplexity AI for the image analysis capabilities
 - All contributors who have helped shape this project
+
+## Problem Statement
+
+According to the CDC, adult obesity rates have been steadily increasing, highlighting the urgent need for better nutritional management. NutriVision AI addresses this challenge by providing instant, accurate nutritional analysis of your meals.
