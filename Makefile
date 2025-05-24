@@ -13,6 +13,7 @@ help:
 	@echo "  make type-check - Run type checking with mypy."
 	@echo "  make pre-commit - Run all pre-commit checks (format, lint, test)."
 	@echo "  make clean    - Clean up cache files and test reports."
+	@echo "  make teardown - Deactivate and remove the conda environment."
 
 setup-conda:
 	conda env create -f environment.yml
@@ -33,7 +34,7 @@ setup:
 		echo "Creating .streamlit/secrets.toml template..."; \
 		mkdir -p .streamlit; \
 		echo "# [myconnection]" > .streamlit/secrets.toml; \
-		echo "#YOUR_API_KEY= "Perplexity API Key" >> .streamlit/secrets.toml; \
+		echo "#YOUR_API_KEY= \"Perplexity API Key\"" >> .streamlit/secrets.toml; \
 	fi
 
 run:
@@ -92,3 +93,9 @@ clean:
 	find . -type f -name "coverage.xml" -delete
 	find . -type f -name "*.log" -delete
 	find . -type f -name "*.pyc" -delete
+
+# Teardown Command
+teardown:
+	conda deactivate || echo "No active conda environment to deactivate."
+	conda env remove -n food-nutrition || echo "Environment 'food-nutrition' does not exist."
+	@echo "Teardown complete."

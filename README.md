@@ -259,4 +259,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - Streamlit for the amazing web framework
 - Perplexity AI for the image analysis capabilities
-- All contributors who have helped shape this project
