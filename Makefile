@@ -1,5 +1,5 @@
 # Development Commands
-.PHONY: setup setup-conda run test-imports format lint type-check pre-commit test test-coverage test-async get-version release clean
+.PHONY: setup setup-conda run test-imports format lint type-check pre-commit test test-coverage test-async get-version release clean help
 
 setup-conda:
 	conda env create -f environment.yml
@@ -79,3 +79,14 @@ clean:
 	find . -type f -name ".coverage" -delete
 	find . -type f -name "coverage.xml" -delete
 	find . -type f -name "*.log" -delete
+
+help:
+	@echo "Available commands:"
+	@echo "  make setup    - Install dependencies and set up the development environment."
+	@echo "  make run      - Run the Streamlit application locally."
+	@echo "  make test     - Run tests with HTML and XML reports."
+	@echo "  make format   - Format code with black and isort."
+	@echo "  make lint     - Run flake8 code quality checks."
+	@echo "  make type-check - Run type checking with mypy."
+	@echo "  make pre-commit - Run all pre-commit checks (format, lint, test)."
+	@echo "  make clean    - Clean up cache files and test reports."
