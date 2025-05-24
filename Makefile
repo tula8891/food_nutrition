@@ -1,6 +1,19 @@
 # Development Commands
 .PHONY: setup setup-conda run test-imports format lint type-check pre-commit test test-coverage test-async get-version release clean help
 
+#default: help
+help:
+	@echo "Available commands:"
+	@echo "  make setup-conda - Create the conda environment from environment.yml."
+	@echo "  make setup    - Install dependencies and set up the development environment."
+	@echo "  make run      - Run the Streamlit application locally."
+	@echo "  make test     - Run tests with HTML and XML reports."
+	@echo "  make format   - Format code with black and isort."
+	@echo "  make lint     - Run flake8 code quality checks."
+	@echo "  make type-check - Run type checking with mypy."
+	@echo "  make pre-commit - Run all pre-commit checks (format, lint, test)."
+	@echo "  make clean    - Clean up cache files and test reports."
+
 setup-conda:
 	conda env create -f environment.yml
 	@echo "Conda environment created. Activate it with: conda activate food-nutrition"
@@ -19,9 +32,8 @@ setup:
 	@if [ ! -f .streamlit/secrets.toml ]; then \
 		echo "Creating .streamlit/secrets.toml template..."; \
 		mkdir -p .streamlit; \
-		echo "# Add your API keys and secrets here" > .streamlit/secrets.toml; \
-		echo "# Example:" >> .streamlit/secrets.toml; \
-		echo "# api_key = \"your-api-key-here\"" >> .streamlit/secrets.toml; \
+		echo "# [myconnection]" > .streamlit/secrets.toml; \
+		echo "#YOUR_API_KEY= "Perplexity API Key" >> .streamlit/secrets.toml; \
 	fi
 
 run:
@@ -79,14 +91,4 @@ clean:
 	find . -type f -name ".coverage" -delete
 	find . -type f -name "coverage.xml" -delete
 	find . -type f -name "*.log" -delete
-
-help:
-	@echo "Available commands:"
-	@echo "  make setup    - Install dependencies and set up the development environment."
-	@echo "  make run      - Run the Streamlit application locally."
-	@echo "  make test     - Run tests with HTML and XML reports."
-	@echo "  make format   - Format code with black and isort."
-	@echo "  make lint     - Run flake8 code quality checks."
-	@echo "  make type-check - Run type checking with mypy."
-	@echo "  make pre-commit - Run all pre-commit checks (format, lint, test)."
-	@echo "  make clean    - Clean up cache files and test reports."
+	find . -type f -name "*.pyc" -delete

@@ -12,7 +12,7 @@ Parmanand Sahu :   https://parmanandsahu.com/
 
 Tula Ram Sahu :    https://in.linkedin.com/in/tula-ram-sahu-003226104
 
-Website_url :       https://foodnutrition-bedw5i7pctwrb9zuvu3jzg.streamlit.app/
+Website_Url :       https://foodnutrition-bedw5i7pctwrb9zuvu3jzg.streamlit.app/
 
 
 ### Note
@@ -25,7 +25,9 @@ This means that no one apart from the designated judges is permitted to access, 
 
 ## Problem Statement
 
-According to the CDC, adult obesity rates have been steadily increasing, highlighting the urgent need for better nutritional management. NutriVision AI addresses this challenge by providing instant, accurate nutritional analysis of your meals.
+Obesity is a growing health crisis in the United States, affecting 1 in 5 children and 2 in 5 adults, according to the CDC. It contributes to serious conditions like high blood pressure, type 2 diabetes, heart disease, and certain cancers—costing the healthcare system nearly $173 billion annually.
+
+One of the biggest obstacles on a fitness journey is consistency—people struggle with lack of time, discipline, and the tedious process of tracking every meal. NutriVision AI directly addresses these issues by offering fast, accurate nutritional analysis from just a photo, making healthy eating easier and more accessible than ever.
 
 ## Overview
 
@@ -60,7 +62,7 @@ To become the world's most trusted AI-powered nutrition assistant, transforming 
 
 ---
 
-## 🔌 Perplexity API Integration
+## 🔌 Perplexity API Integration : How perplexity is used
 
 NutriVision AI leverages the Perplexity API to analyze food images and extract detailed nutritional information. Here's how it works:
 
@@ -74,13 +76,14 @@ For more details on the Perplexity API, visit [Perplexity Hackathon DevPost Chal
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Quick Start : How to run the application in local machine
 
 ### Prerequisites
 
-- Python 3.8 or higher
-- pip (Python package manager)
+- Python 3.10 or higher
+- Conda (Python package manager)
 - Git
+- Mac/Linux
 
 ### Installation
 
@@ -90,23 +93,6 @@ For more details on the Perplexity API, visit [Perplexity Hackathon DevPost Chal
    cd food_nutrition
    ```
 
-2. Set up the development environment:
-   - **Linux/Mac users:**
-     ```bash
-     make setup
-     ```
-   - **Windows users:**
-     ```bash
-     .\setup.bat
-     ```
-
-3. Run the application:
-   ```bash
-   make run
-   ```
-
-The application will be available at `http://localhost:8501`
-
 ---
 
 ## 🐍 Conda Setup (Recommended)
@@ -115,7 +101,7 @@ If you use [Anaconda](https://www.anaconda.com/products/distribution) or [Minico
 
 1. **Create the Conda environment:**
    ```bash
-   conda env create -f environment.yml
+   make setup-conda
    ```
 2. **Activate the environment:**
    ```bash
@@ -125,20 +111,36 @@ If you use [Anaconda](https://www.anaconda.com/products/distribution) or [Minico
    ```bash
    make setup
    ```
-   Note: A sample secrets.toml file will be created in the .streamlit directory. Update it with your actual API keys and credentials.
-4. **Run the app:**
+   Note: A sample `secrets.toml` file will be created in the `.streamlit` directory. Update it with your actual API keys and credentials. Below is an example of the `secrets.toml` file:
+
+   ```toml
+   # secrets.toml
+   [myconnection]
+   YOUR_API_KEY = "Perplexity API Key"
+
+   ```
+
+4. **Run the web app:**
    ```bash
    make run
    ```
-   or directly:
-   ```bash
-   streamlit run app.py
-   ```
+   This will run the application at [http://localhost:8501/](http://localhost:8501/)
+5. **Use the app:**
+   1. Open the web application locally by navigating to [http://localhost:8501/](http://localhost:8501/).
+   2. Click the "Login" button and use the following default credentials:
+      ```
+      Username: test@example.com
+      Password: test123
+      ```
+      *Note: Ensure there are no extra spaces before or after the credentials.*
+   3. Enter your personal health information in the sidebar. This will automatically calculate and update your daily calorie requirements.
 
-5. **(Optional) Run pre-commit checks:**
-   ```bash
-   pre-commit run --all-files
-   ```
+      ![Health Information Sidebar](health_info.png)
+
+   4. After updating your health information, select a meal type (e.g., breakfast, lunch, dinner, or snacks). Then, go to the "Capture or Upload Your Food Image" section and click "Analyze."
+
+      *Tip: You can use sample food images available in the `food_pics` folder for testing purposes.*
+   5. View the results, which will display detailed calorie information and a breakdown of macronutrients present in the uploaded food image.
 
 ---
 

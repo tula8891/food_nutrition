@@ -1,1 +1,48 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="5" time="2.622" timestamp="2025-05-22T16:13:07.594635+05:30" hostname="LAPTOP-NPBMAJJB"><testcase classname="tests.test_app" name="test_percent" time="0.001" /><testcase classname="tests.test_app" name="test_get_daily_nutrition_requirements" time="0.001" /><testcase classname="tests.test_app" name="test_generate_implicature" time="0.425" /><testcase classname="tests.test_app" name="test_extract_daily_intake_info" time="0.001" /><testcase classname="tests.test_app" name="test_extract_nutritional_values" time="0.001" /></testsuite></testsuites>
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="9" time="0.909" timestamp="2025-05-24T10:49:33.517298-04:00" hostname="Team-Imagines-Mac-mini.local"><testcase classname="tests.test_app" name="test_percent" time="0.000" /><testcase classname="tests.test_app" name="test_get_daily_nutrition_requirements" time="0.000" /><testcase classname="tests.test_app" name="test_extract_daily_intake_info" time="0.000" /><testcase classname="tests.test_app" name="test_extract_nutritional_values" time="0.000" /><testcase classname="tests.test_app" name="test_img_to_base64" time="0.000" /><testcase classname="tests.test_app" name="test_get_perplexity_response" time="0.001" /><testcase classname="tests.test_app" name="test_show_login_page" time="0.001" /><testcase classname="tests.test_app" name="test_show_landing_page" time="0.001" /><testcase classname="tests.test_app" name="test_main" time="0.416"><failure message="KeyError: 'st.secrets has no key &quot;myconnection&quot;. Did you forget to add it to secrets.toml, mount it to secret directory, or the app settings on Streamlit Cloud? More info: https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/secrets-management'">self = Secrets, key = 'myconnection'
+
+    def __getitem__(self, key: str) -&gt; Any:
+        """Return the value with the given key. If no such key
+        exists, raise a KeyError.
+
+        Thread-safe.
+        """
+        try:
+&gt;           value = self._parse()[key]
+E           KeyError: 'myconnection'
+
+/opt/anaconda3/envs/food-nutrition/lib/python3.10/site-packages/streamlit/runtime/secrets.py:470: KeyError
+
+During handling of the above exception, another exception occurred:
+
+mock_session_state = &lt;MagicMock name='session_state' id='4450232944'&gt;
+
+    @patch("streamlit.session_state")
+    def test_main(mock_session_state: Mock) -&gt; None:
+        """Test the main function."""
+&gt;       main()
+
+tests/test_app.py:99:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+app.py:538: in main
+    api_key = st.secrets["myconnection"]["YOUR_API_KEY"]
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Secrets, key = 'myconnection'
+
+    def __getitem__(self, key: str) -&gt; Any:
+        """Return the value with the given key. If no such key
+        exists, raise a KeyError.
+
+        Thread-safe.
+        """
+        try:
+            value = self._parse()[key]
+            if not isinstance(value, Mapping):
+                return value
+            else:
+                return AttrDict(value)
+        except KeyError:
+&gt;           raise KeyError(_missing_key_error_message(key))
+E           KeyError: 'st.secrets has no key "myconnection". Did you forget to add it to secrets.toml, mount it to secret directory, or the app settings on Streamlit Cloud? More info: https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/secrets-management'
+
+/opt/anaconda3/envs/food-nutrition/lib/python3.10/site-packages/streamlit/runtime/secrets.py:476: KeyError</failure></testcase></testsuite></testsuites>
