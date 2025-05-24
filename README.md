@@ -37,21 +37,14 @@ To become the world's most trusted AI-powered nutrition assistant, transforming 
 
 ### Values  :
 
-1. Innovation
-   - Using AI to simplify nutrition tracking
-   - Always improving our technology
-2. Empowerment
-   - Giving users control over their health
-   - Making nutrition data easy to understand
-3. Accessibility
-   - Available everywhere, on any device
-   - Easy to use for everyone
-4. Trust
-   - Protecting user privacy
-   - Providing accurate analysis
-5. Health
-   - Promoting balanced nutrition
-   - Supporting healthy choices
+   1. Empowering Health Through Innovation
+      - We simplify nutrition tracking using advanced AI, constantly enhancing our technology to give users greater control over their health.
+
+   2. Accessible and Inclusive for Everyone
+      - Our platform is easy to use, available on any device, and designed to make nutrition data understandable and actionable for all.
+
+   3. Trustworthy and Health-Focused
+      - We prioritize user privacy, deliver accurate nutritional insights, and promote balanced choices that support lifelong well-being.
 
 ## 🌟 Features
 
