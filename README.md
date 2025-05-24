@@ -61,6 +61,21 @@ To become the world's most trusted AI-powered nutrition assistant, transforming 
 - 📱 Cross-device compatibility
 - 🔒 Secure and private
 
+---
+
+## 🔌 Perplexity API Integration
+
+NutriVision AI leverages the Perplexity API to analyze food images and extract detailed nutritional information. Here's how it works:
+
+1. **Image Upload:** Users upload food images through the Streamlit interface.
+2. **API Call:** The app sends the image to the Perplexity API for analysis.
+3. **Response Processing:** The API returns detailed nutritional data, which is then processed and displayed to the user.
+4. **Error Handling:** The app includes robust error handling to manage API failures gracefully.
+
+For more details on the Perplexity API, visit [Perplexity Hackathon DevPost Challenge](https://perplexityhackathon.devpost.com/).
+
+---
+
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -93,6 +108,42 @@ To become the world's most trusted AI-powered nutrition assistant, transforming 
    ```
 
 The application will be available at `http://localhost:8501`
+
+---
+
+## 🐍 Conda Setup (Recommended)
+
+If you use [Anaconda](https://www.anaconda.com/products/distribution) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html), follow these steps for a fully reproducible environment:
+
+1. **Create the Conda environment:**
+   ```bash
+   conda env create -f environment.yml
+   ```
+2. **Activate the environment:**
+   ```bash
+   conda activate food-nutrition
+   ```
+3. **Run the setup (installs pip requirements, pre-commit, and creates secrets template):**
+   ```bash
+   make setup
+   ```
+   - This will also create a `.streamlit/secrets.toml` file if it doesn't exist.
+   - **Edit `.streamlit/secrets.toml`** and add your own secrets (API keys, etc.) as needed.
+4. **Run the app:**
+   ```bash
+   make run
+   ```
+   or directly:
+   ```bash
+   streamlit run app.py
+   ```
+
+5. **(Optional) Run pre-commit checks:**
+   ```bash
+   pre-commit run --all-files
+   ```
+
+---
 
 ## 🛠️ Development
 

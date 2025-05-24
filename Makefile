@@ -1,10 +1,28 @@
 # Development Commands
-.PHONY: setup run test-imports format lint type-check pre-commit test test-coverage test-async get-version release clean
+.PHONY: setup setup-conda run test-imports format lint type-check pre-commit test test-coverage test-async get-version release clean
+
+setup-conda:
+	conda env create -f environment.yml
+	@echo "Conda environment created. Activate it with: conda activate food-nutrition"
 
 setup:
+	@if [ -z "$$CONDA_DEFAULT_ENV" ]; then \
+		echo "Please activate the conda environment first: conda activate food-nutrition"; \
+		exit 1; \
+	fi
 	python -m pip install --upgrade pip
 	pip install -r requirements.txt
 	pip install -r requirements-dev.txt
+	pip install pre-commit
+	pre-commit install
+	pre-commit install --hook-type commit-msg
+	@if [ ! -f .streamlit/secrets.toml ]; then \
+		echo "Creating .streamlit/secrets.toml template..."; \
+		mkdir -p .streamlit; \
+		echo "# Add your API keys and secrets here" > .streamlit/secrets.toml; \
+		echo "# Example:" >> .streamlit/secrets.toml; \
+		echo "# api_key = \"your-api-key-here\"" >> .streamlit/secrets.toml; \
+	fi
 
 run:
 	streamlit run app.py
