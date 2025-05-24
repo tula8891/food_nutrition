@@ -1,14 +1,23 @@
 """Test cases for the NutriVision AI application."""
 
+import base64
+import os
 from typing import Dict
+from unittest.mock import Mock, patch
 
 from app import (
     extract_daily_intake_info,
     extract_nutritional_values,
-    generate_implicature,
     get_daily_nutrition_requirements,
+    get_perplexity_response,
+    img_to_base64,
+    main,
     percent,
+    show_landing_page,
+    show_login_page,
 )
+
+# Removed unused imports
 
 
 def test_percent() -> None:
@@ -28,20 +37,6 @@ def test_get_daily_nutrition_requirements() -> None:
     assert all(isinstance(v, float) for v in requirements.values())
 
 
-def test_generate_implicature() -> None:
-    """Test the AI response generation function."""
-    response: str = generate_implicature(
-        "test_key",
-        "test_image",
-        30,
-        70,
-        170,
-        "male",
-        "breakfast",
-    )
-    assert isinstance(response, str)
-
-
 def test_extract_daily_intake_info() -> None:
     """Test the daily intake information extraction."""
     response: str = "This meal provides approximately 1/4 of your daily intake."
@@ -56,3 +51,51 @@ def test_extract_nutritional_values() -> None:
     assert values["protein"] == 20.0
     assert values["carbohydrates"] == 60.0
     assert values["fat"] == 15.0
+
+
+def test_img_to_base64() -> None:
+    """Test the image to base64 conversion function."""
+    # Create a temporary test image
+    test_img_path = "test_img.png"
+    with open(test_img_path, "wb") as f:
+        f.write(b"fake image data")
+    try:
+        result = img_to_base64(test_img_path)
+        assert isinstance(result, str)
+        # Verify it's a valid base64 string
+        base64.b64decode(result)
+    finally:
+        os.remove(test_img_path)
+
+
+@patch("httpx.post")
+def test_get_perplexity_response(mock_post: Mock) -> None:
+    """Test the Perplexity API response function."""
+    mock_response = Mock()
+    mock_response.json.return_value = {"choices": [{"message": {"content": "Test response"}}]}
+    mock_response.raise_for_status.return_value = None
+    mock_post.return_value = mock_response
+    result = get_perplexity_response("test_key", "test_image", 30, 70, 170, "male", "breakfast")
+    assert result == "Test response"
+
+
+@patch("streamlit.markdown")
+def test_show_login_page(mock_markdown: Mock) -> None:
+    """Test the login page display function."""
+    show_login_page()
+    assert mock_markdown.call_count >= 1  # At least one markdown call is made
+
+
+@patch("streamlit.markdown")
+def test_show_landing_page(mock_markdown: Mock) -> None:
+    """Test the landing page display function."""
+    show_landing_page()
+    assert mock_markdown.call_count >= 1  # At least one markdown call is made
+
+
+@patch("streamlit.session_state")
+def test_main(mock_session_state: Mock) -> None:
+    """Test the main function."""
+    main()
+    # Verify that the main function runs without errors
+    assert True  # If we get here, the function ran successfully
