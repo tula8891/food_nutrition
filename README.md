@@ -86,8 +86,8 @@ For more details on the Perplexity API, visit [Perplexity Hackathon DevPost Chal
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/nutrivision-ai.git
-   cd nutrivision-ai
+   git clone https://github.com/tula8891/food_nutrition.git
+   cd food_nutrition
    ```
 
 2. Set up the development environment:
