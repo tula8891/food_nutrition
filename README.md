@@ -127,8 +127,7 @@ If you use [Anaconda](https://www.anaconda.com/products/distribution) or [Minico
    ```bash
    make setup
    ```
-   - This will also create a `.streamlit/secrets.toml` file if it doesn't exist.
-   - **Edit `.streamlit/secrets.toml`** and add your own secrets (API keys, etc.) as needed.
+   Note: A sample secrets.toml file will be created in the .streamlit directory. Update it with your actual API keys and credentials.
 4. **Run the app:**
    ```bash
    make run
