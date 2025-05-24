@@ -408,7 +408,7 @@ def get_daily_nutrition_requirements(age: int, weight: float, height: float, gen
     }
 
 
-def generate_implicature(
+def get_perplexity_response(
     api_key: str,
     image_data_uri: str,
     age: int,
@@ -681,7 +681,7 @@ def main() -> None:
         with col2:
             if st.button("🔍 Analyze Nutrition"):
                 with st.spinner("🧠 Analyzing nutritional content..."):
-                    result = generate_implicature(
+                    result = get_perplexity_response(
                         api_key,
                         image_data_uri,
                         age,
