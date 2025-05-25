@@ -447,6 +447,7 @@ def get_perplexity_response(
         "Daily Intake Portion: [fraction]\n"
         "Do not summarize, explain, or add any extra text, formatting, or commentary. "
         "Output only the five lines above."
+        "after analyzing the image, give me complete nutrient of food other than above mentioned"
     )
     data = {
         "model": "sonar-pro",
