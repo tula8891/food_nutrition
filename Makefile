@@ -33,8 +33,8 @@ setup:
 	@if [ ! -f .streamlit/secrets.toml ]; then \
 		echo "Creating .streamlit/secrets.toml template..."; \
 		mkdir -p .streamlit; \
-		echo "# [myconnection]" > .streamlit/secrets.toml; \
-		echo "#YOUR_API_KEY= \"Perplexity API Key\"" >> .streamlit/secrets.toml; \
+		echo "[myconnection]" > .streamlit/secrets.toml; \
+		echo "YOUR_API_KEY= \"Perplexity API Key\"" >> .streamlit/secrets.toml; \
 	fi
 
 run:
