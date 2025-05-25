@@ -47,7 +47,7 @@ def percent(part: float, whole: float) -> float:
     Returns:
         The percentage value.
     """
-    return (part / whole) * 100 if whole != 0 else 0
+    return round((part / whole) * 100, 2) if whole != 0 else 0
 
 
 def img_to_base64(img_path: str) -> str:
@@ -401,10 +401,10 @@ def get_daily_nutrition_requirements(age: int, weight: float, height: float, gen
     carbs = (tdee - (protein * 4) - (fat * 9)) / 4  # Remaining calories from carbs
 
     return {
-        "calories": tdee,
-        "protein": protein,
-        "carbohydrates": carbs,
-        "fat": fat,
+        "calories": round(tdee, 2),
+        "protein": round(protein, 2),
+        "carbohydrates": round(carbs, 2),
+        "fat": round(fat, 2),
     }
 
 
@@ -573,7 +573,7 @@ def main() -> None:
     daily_requirements = get_daily_nutrition_requirements(age, weight, height, gender)
 
     st.markdown(f"### 🧮 Recommended Daily Intake for **{user_name}**")
-    st.markdown(f"**Age**: {age} | **Weight**: {weight} kg | **Height**: {height} cm")
+    st.markdown(f"**Age**: {age} | **Weight**: {round(weight, 2)} kg | **Height**: {round(height, 2)} cm")
 
     # Create the base data structure
     table_data = {
@@ -643,11 +643,11 @@ def main() -> None:
     )
     st.progress(
         min(1.0, total_intake["carbohydrates"] / daily_requirements["carbohydrates"]),
-        text=f"Carbs: {total_intake['carbohydrates']:.0f} / {daily_requirements['carbohydrates']} g",
+        text=f"Carbs: {total_intake['carbohydrates']:.0f} / {round(daily_requirements['carbohydrates'],2)}) g",
     )
     st.progress(
         min(1.0, total_intake["fat"] / daily_requirements["fat"]),
-        text=f"Fat: {total_intake['fat']:.0f} / {daily_requirements['fat']} g",
+        text=f"Fat: {total_intake['fat']:.0f} / {round(daily_requirements['fat'],2)} g",
     )
 
     st.markdown("### 📸 Capture or Upload Your Food Image")
